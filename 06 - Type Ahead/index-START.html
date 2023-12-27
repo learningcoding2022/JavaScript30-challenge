@@ -22,13 +22,15 @@ const cities = [];
 
 fetch(endpoint)
   .then(blob => blob.json())
-  .then(data => cities.push(...data))
+  .then(data => cities.push(...data)) //spreads the fetched data into a function 
 
+//takes the text input from search box that the user inputs and filters down the array to what matches the text input by user
 function findMatches(wordToMatch, cities) {
-  return cities.filter(place => {
+  return cities.filter(place => { //the return section chisels down the array to a subset of the original array
   //here we need to figure out if the city or state matches what was searched
   const regex = new RegExp(wordToMatch, 'gi')
   return place.city.match(regex) || place.state.match(regex);
+  //this returns cities or states that match what was searched
 });
 }
 
@@ -41,7 +43,7 @@ function displayMatches() {
   const matchArray = findMatches(this.value, cities); //this.value is whatever the person searched for
   const html = matchArray.map(place => {
     const regex = new RegExp(this.value, 'gi') //"g" is search globally and "i" is insensitive to capitals
-    const cityName = place.city.replace(regex, `<span class="h1">${this.value}</span>`);
+    const cityName = place.city.replace(regex, `<span class="h1">${this.value}</span>`); // replacing the word typed in with the same word with a class of highlight
     const stateName = place.state.replace(regex, `<span class="h1">${this.value}</span>`); //regex is whatever the input matches with
     return `
       <li>
@@ -49,7 +51,7 @@ function displayMatches() {
         <span class="population">${numberWithCommas(place.population)}</span>
       </li>
     `;
-  }).join('');
+  }).join(''); //turns the array from multiple items into a string
   suggestions.innerHTML = html;
 }
 
