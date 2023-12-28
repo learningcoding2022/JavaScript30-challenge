@@ -35,7 +35,7 @@
       }
     });
     ***/
-   
+
     //refractored code for Array.prototype.some()
     const isAdult = people.some(person => ((new Date()).getFullYear()) - person.year >= 19);
   
@@ -60,9 +60,20 @@
     const comment = comments.find(comment => comment.id === 823423);
     
     console.log(comment);
-    // Array.prototype.findIndex()
+
+    // Array.prototype.findIndex()    *findIndex is going to find where something is in an array
     // Find the comment with this ID
     // delete the comment with the ID of 823423
+
+    const index = comments.findIndex(comment => comment.id === 823423);
+    console.log(index);
+
+    //comments.splice(index, 1);
+
+    const newComments = [
+      ...comments.slice(0, index) //start at 0 and go through index
+      ...comments.slice(index + 1)
+    ];
 
   </script>
 </body>
