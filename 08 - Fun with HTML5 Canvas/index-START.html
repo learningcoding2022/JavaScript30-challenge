@@ -15,19 +15,48 @@ canvas.height = window.innerHeight;
 ctx.strokeStyle = '#BADA55';
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
+ctx.lineWidth = 100;
 
 let isDrawing = false;
 //only draws when cursor is down....flags the system as to whether there should be drawing or someone is just moving their mouse
 let lastX = 0;
 let lastY = 0;
+let hue = 0;
+let direction = true;
 
 function draw(e) {
   if(!isDrawing) return; //stop the function from running when they are not moused down
   console.log(e);
-}
+  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+  ctx.beginPath();
+  //need to start with an x and y and end with an x and y
+  //start from
+  ctx.moveTo(lastX, lastY);
+  //go to
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+  [lastX, lastY] = [e.offsetX, e.offsetY];
+  hue++;
+  if(hue >= 360) {
+    hue = 0;
+  }
 
-canvas.addEventListener('mouseover', draw);
-canvas.addEventListener('mousedown', () => isDrawing = true);
+  //below we are saying in the lines above if the line width is greater than or equal to 100 flip the direction and if it's less than 1 flip the direction
+  if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+    direction = !direction;
+  } 
+  //then we are saying based on the direction either increment the line width or decrease the line width
+  if (direction) {
+    ctx.lineWidth++;
+  } else {
+    ctx.lineWidth--;
+  }
+
+canvas.addEventListener('mousedown', () =>{
+  isDrawing = true;
+  [lastX, lastY] = [e.offsetX, e.offsetY];
+});
+canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', () => isDrawing = false);
 canvas.addEventListener('mouseout', () => isDrawing = false);
 
