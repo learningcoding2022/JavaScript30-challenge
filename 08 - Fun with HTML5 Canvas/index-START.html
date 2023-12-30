@@ -15,6 +15,22 @@ canvas.height = window.innerHeight;
 ctx.strokeStyle = '#BADA55';
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
+
+let isDrawing = false;
+//only draws when cursor is down....flags the system as to whether there should be drawing or someone is just moving their mouse
+let lastX = 0;
+let lastY = 0;
+
+function draw(e) {
+  if(!isDrawing) return; //stop the function from running when they are not moused down
+  console.log(e);
+}
+
+canvas.addEventListener('mouseover', draw);
+canvas.addEventListener('mousedown', () => isDrawing = true);
+canvas.addEventListener('mouseup', () => isDrawing = false);
+canvas.addEventListener('mouseout', () => isDrawing = false);
+
 </script>
 
 <style>
